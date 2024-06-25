@@ -1,0 +1,68 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<main>
+    <script>
+        function redirectToUrl(groupId) {
+            window.location.href = "/add_participant/" + groupId + "/";
+        }
+    </script>
+    <div class="top">
+        <div class="search">
+            <img src="{% static 'images/search.png' %}" alt="">
+            <input type="text" placeholder="Search here">
+        </div>
+        <a href="{% url 'create_group' %}" class="add_btn">
+            <img src="{% static 'images/add.png' %}" alt="">
+            Add Group
+        </a>
+    </div>
+    {% for group in groups %}
+    <div class="group">
+        <a href="{% url 'group' group.id %}" class="group">
+            <div class="group_logo">
+                <img src="{{group.logo.url}}" alt="logo">
+            </div>
+            <div class="group_info">
+                <h1>{{group.name}}</h1>
+                <p>{{group.description}}</p>
+                <p>Emily posted 10 min ago</p>
+                <p>Okay, now we can get hands on it</p>
+            </div>
+            <div class="group_participate">
+                {% for participant in group.participants.all %}
+                <div class="participate_profile">
+                    <img src="{{participant.userprofile.picture.url}}" alt="{{participant.username}}">
+                </div>
+                {% endfor %}
+                ...
+            </div>
+            <div class="message_count">
+                <img src="{% static 'images/message.png' %}" alt="">
+                67
+            </div>
+            <div class="group_option">
+                <img src="{% static 'images/option.png' %}" alt="">
+                <div class="options">
+                    <div>
+                        <img src="{% static 'images/update.png' %}" alt="">
+                        Update
+                    </div>
+                    <hr>
+                    <div>
+                        <img src="{% static 'images/delete.png' %}" alt="">
+                        Delete
+                    </div>
+                </div>
+            </div>
+
+        </a>
+        {% if request.user not in group.participants.all %}
+        <span class="follow_btn" onclick="redirectToUrl('{{ group.id }}')">Follow</span>
+        {% elif reques.user in group.joiners.all %}
+        <span>Your request to join the group has been send, waiting for the admin approuval.</span>
+        {% endif %}
+    </div>
+    {% endfor %}
+</main>
+{% endblock%}

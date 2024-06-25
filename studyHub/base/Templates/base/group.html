@@ -1,0 +1,64 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<main style="height: 100vh; width: 100%;">
+    <div class="top_header">
+        <div class="group_logo">
+            <img src="{{group.logo.url}}" alt="logo">
+        </div>
+        <h1>{{group.name}}</h1>
+    </div>
+    <p>{{group.description}}</p>
+    <span>Created the {{group.created_at}}</span>
+    {% if group.created_at != group.update_at %}
+    <span>Last Update was the {{group.update_at}}</span>
+    {% endif %}
+    <div class="main">
+        <div class="chat_field">
+            <div class="chat">
+                {% for message in messages %}
+                <div class="message">
+                    <div class="sender_profile">
+                        <img src="{{message.sender.userprofile.picture.url}}" alt="profile">
+                    </div>
+                    <div class="message_info">
+                        <span class="sender_username">{{message.sender.username}}</span>
+                        <p class="message_body">{{message.content}}</p>
+                        <span class="message_datetime">{{message.timestamp}}</span>
+                        <div class="message_action">
+                            <a href="#">
+                                <img src="{% static %}" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if request.user in group.participants.all %}
+            <form action="" method="POST" class="input_message">
+                {% csrf_token %}
+                <input type="text" name="body" id="body" placeholder="Write message">
+                <input type="file" name="attach" id="attach" hidden>
+                <button><img src="{% static 'images/attach.png' %}" alt=""></button>
+            </form>
+            {% else %}
+            <p>Only participant can chat</p>
+            {% endif %}
+        </div>
+        <div class="participants">
+            {% for participant in group.participants.all %}
+            <div class="participant">
+                <div class="participant_profile">
+                    <img src="{{participant.userprofile.picture.url}}" alt="{{participant.username}}">
+                </div>
+                <div class="participant_info">
+                    <span>{{participant.username}}</span>
+                    <span>{{participant.email}}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</main>
+{% endblock%}

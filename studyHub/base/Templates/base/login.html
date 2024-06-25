@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+{% block header %}
+{% endblock%}
+{% block content %}
+<main class="registration">
+    <form action="" method="POST">
+        <h1>Wellcome back!</h1>
+        {% csrf_token %}
+        <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="field">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <input type="submit" value="Login">
+        <p>Need an account?, <a href="{% url 'registration' %}">Sign in</a></p>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif%}
+    </form>
+</main>
+{% endblock %}

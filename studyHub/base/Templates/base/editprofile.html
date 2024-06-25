@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+{% block header %}
+{% endblock%}
+{% block content %}
+<main>
+    <form action="" method="POST" enctype="multipart/form-data">
+        <h1>Update your profile</h1>
+        {% csrf_token %}
+        <div class="field">
+            <label for="avatar">Avatar</label>
+            <input type="file" id="avatar" name="avatar">
+        </div>
+        <div class="field">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" value="{{request.user.username}}">
+        </div>
+        <div class="field">
+            <label for="bio">Bio</label>
+            <textarea name="bio" id="bio" rows="10">{{request.user.userprofile.bio}}</textarea>
+        </div>
+        <input type="submit" value="Update">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif%}
+    </form>
+</main>
+{% endblock %}

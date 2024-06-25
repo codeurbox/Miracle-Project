@@ -1,0 +1,28 @@
+{% load static %}
+<header>
+    <div class="logo">
+        <img src="{% static 'images/logo.svg'%}" alt="">
+    </div>
+    <div class="group_list">
+        {% for group in groups %}
+        <a href="{% url 'group' group.id %}" class="group_icon">
+            <div class="group_image">
+                <img src="{{group.logo.url}}" alt="{{group.name}}">
+            </div>
+            <span>{{group.name}}</span>
+        </a>
+        {% endfor %}
+    </div>
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'profile' %}" class="account">
+        <div class="profile">
+            <img src="{{request.user.userprofile.picture.url}}" alt="avatar">
+        </div>
+    </a>
+    {% else %}
+    <a href="{% url 'login' %}" class="login">
+        <img src="{% static 'images/login.svg' %}" alt="">
+        <span>Login</span>
+    </a>
+    {% endif %}
+</header>

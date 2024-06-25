@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block header %}
+{% endblock %}
+{% block content %}
+<main class="profile_page">
+    <a href="{% url 'fields' %}" style="align-self: flex-start;">👉Back</a>
+    <div class="avatar_profile">
+        <img src="{{request.user.userprofile.picture.url}}" alt="avatar">
+    </div>
+    <a href="{% url 'editprofile' %}">edit profile</a>
+    <h2>{{request.user.username}}</h2>
+    <span>{{request.user.email}}</span>
+    <p>{{request.user.userprofile.bio}}</p>
+    <a href="{% url 'logout' %}" class="login">
+        <img src="{% static 'images/logout.svg' %}" alt="">
+        Log out
+    </a>
+</main>
+{% endblock %}
